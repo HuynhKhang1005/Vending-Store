@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // eslint-disable-next-line new-cap
 const router = require("express").Router();
 const admin = require("firebase-admin");
@@ -63,37 +64,20 @@ router.delete("/delete/:productId", async (req, res) => {
 // edit product
 router.put("/edit/:productId", async (req, res) => {
   const productId = req.params.productId;
-  // eslint-disable-next-line camelcase
-  const {product_price} = req.body;
+  const {newPrice} = req.body; // Giả sử bạn truyền giá mới qua request body
 
   try {
     const productRef = db.collection("products").doc(productId);
 
-    // Validate that product_price is a valid number before updating
-    // eslint-disable-next-line camelcase
-    if (typeof product_price !== "number") {
-      // eslint-disable-next-line max-len
-      return res.status(400).send({success: false, msg: "Invalid product_price"});
-    }
+    // Sử dụng hàm update để chỉnh sửa giá của sản phẩm
+    await productRef.update({
+      product_price: newPrice,
+    });
 
-    // eslint-disable-next-line camelcase
-    await productRef.update({product_price});
-
-    const updatedProduct = await productRef.get();
-
-    if (!updatedProduct.exists) {
-      return res.status(404).send({success: false, msg: "Product not found"});
-    }
-
-    const updatedProductDetails = {
-      productId: updatedProduct.id,
-      ...updatedProduct.data(),
-    };
-
-    return res.status(200).send({success: true, data: updatedProductDetails});
+    // eslint-disable-next-line no-undef
+    return res.status(200).send({success: true, msg: `Thành công`});
   } catch (err) {
-    console.error("Error updating product:", err);
-    return res.status(500).send({success: false, msg: `Error: ${err.message}`});
+    return res.send({success: false, msg: `Error :${err}`});
   }
 });
 
@@ -221,62 +205,65 @@ router.get("/getCartItems/:user_id", async (req, res) => {
 });
 
 router.post("/create-checkout-session", async (req, res) => {
-  const customer = await stripe.customers.create({
-    metadata: {
-      user_id: req.body.data.user.user_id,
-      cart: JSON.stringify(req.body.data.cart),
-      total: req.body.data.total,
-    },
-  });
+  try {
+    const customer = await stripe.customers.create({
+      metadata: {
+        user_id: req.body.data.user.user_id,
+        cart: JSON.stringify(req.body.data.cart),
+        total: req.body.data.total,
+      },
+    });
 
-  // eslint-disable-next-line camelcase
-  const line_items = req.body.data.cart.map((item) => {
-    return {
-      price_data: {
-        currency: "inr",
-        product_data: {
-          name: item.product_name,
-          images: [item.imageURL],
-          metadata: {
-            id: item.productId,
+    const line_items = req.body.data.cart.map((item) => {
+      return {
+        price_data: {
+          currency: "inr",
+          product_data: {
+            name: item.product_name,
+            images: [item.imageURL],
+            metadata: {
+              id: item.productId,
+            },
+          },
+          unit_amount: item.product_price * 100,
+        },
+        quantity: item.quantity,
+      };
+    });
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      shipping_address_collection: {allowed_countries: ["IN"]},
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: {amount: 0, currency: "inr"},
+            display_name: "Free shipping",
+            delivery_estimate: {
+              minimum: {unit: "hour", value: 2},
+              maximum: {unit: "hour", value: 4},
+            },
           },
         },
-        unit_amount: item.product_price * 100,
+      ],
+      phone_number_collection: {
+        enabled: true,
       },
-      quantity: item.quantity,
-    };
-  });
+      line_items,
+      customer: customer.id,
+      mode: "payment",
+      success_url: `${process.env.CLIENT_URL}/checkout-success`,
+      cancel_url: `${process.env.CLIENT_URL}/`,
+    });
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    shipping_address_collection: {allowed_countries: ["IN"]},
-    shipping_options: [
-      {
-        shipping_rate_data: {
-          type: "fixed_amount",
-          fixed_amount: {amount: 0, currency: "inr"},
-          display_name: "Free shipping",
-          delivery_estimate: {
-            minimum: {unit: "hour", value: 2},
-            maximum: {unit: "hour", value: 4},
-          },
-        },
-      },
-    ],
-    phone_number_collection: {
-      enabled: true,
-    },
-
-    // eslint-disable-next-line camelcase
-    line_items,
-    customer: customer.id,
-    mode: "payment",
-    success_url: `${process.env.CLIENT_URL}/checkout-success`,
-    cancel_url: `${process.env.CLIENT_URL}/`,
-  });
-
-  res.send({url: session.url});
+    res.send({url: session.url});
+  } catch (error) {
+    console.error("Error creating checkout session:", error);
+    res.status(500).send({error: "Internal server error"});
+  }
 });
+
 
 let endpointSecret;
 // const endpointSecret = process.env.WEBHOOK_SECRET;
@@ -318,6 +305,7 @@ router.post(
 
 const createOrder = async (customer, intent, res) => {
   console.log("Inside the orders");
+  console.log(createOrder);
   try {
     const orderId = Date.now();
     const data = {
@@ -333,6 +321,7 @@ const createOrder = async (customer, intent, res) => {
       items: JSON.parse(customer.metadata.cart),
       total: customer.metadata.total,
       sts: "Chờ",
+      date: intent.Date(),
     };
 
     await db.collection("orders").doc(`/${orderId}/`).set(data);

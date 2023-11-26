@@ -39,12 +39,12 @@ const Cart = () => {
       .post(`${baseURL}/api/products/create-checkout-session`, { data })
       .then((res) => {
         if (res.data.url) {
-          console.log(res)
           window.location.href = res.data.url;
         }
       })
       .catch((err) => console.log(err));
   };
+
 
   return (
     <motion.div

@@ -2,23 +2,68 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteAProduct, getAllProducts ,editAProduct} from "../api";
 import { DataTable } from "../components";
-import { alertNULL, alertSuccess } from "../context/actions/alertActions";
+import { alertDanger, alertNULL, alertSuccess, alertWarning } from "../context/actions/alertActions";
 import { setAllProducts } from "../context/actions/productActions";
 
 const DBItems = () => {
   const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const [updatedProductData, setUpdatedProductData] = useState({
-    product_name: '',
-    product_category: '',
+    product_name: "",
+    product_category: "",
     product_price: 0,
-    // Add other properties as needed
   });
   const handleInputChange = (fieldName, value) => {
-    setUpdatedProductData({
-      ...updatedProductData,
-      [fieldName]: value.product_price,
-    });
+      setUpdatedProductData({
+        ...updatedProductData,
+        [fieldName]: value,
+      });
+  };
+  const handleEditProduct = async (rowData) => {
+    try {
+      if (window.confirm("Bạn chắc chắn muốn sửa hay không")) {
+        // Set the initial values to the product's data
+        setUpdatedProductData({
+          product_name: rowData.product_name,
+          product_category: rowData.product_category,
+          product_price: rowData.product_price,
+          // Set other properties as needed
+        });
+
+        // Prompt user for updated values
+        const updatedProductPrice = prompt("Nhập giá mới:", rowData.product_price);
+
+        // Update the product_price in the state
+        if (updatedProductPrice !== null) {
+          handleInputChange("product_price", parseFloat(updatedProductPrice));
+        }
+
+        // Call editAProduct with updatedProductData
+        const res = await editAProduct(rowData.productId, updatedProductData);
+
+        if (res && res.success) {
+          dispatch(alertSuccess("Sản phẩm đã cập nhật"));
+          setTimeout(() => {
+            dispatch(alertNULL());
+          }, 3000);
+
+          // Refetch all products after successful edit
+          const updatedProducts = await getAllProducts();
+          dispatch(setAllProducts(updatedProducts));
+        } else {
+          dispatch(alertDanger("Cập nhật sản phẩm không thành công"));
+          setTimeout(() => {
+            dispatch(alertNULL());
+          }, 3000);
+        }
+      }
+    } catch (error) {
+      console.error("Error editing product:", error);
+      dispatch(alertWarning("Có lỗi xảy ra khi cập nhật sản phẩm"));
+      setTimeout(() => {
+        dispatch(alertNULL());
+      }, 3000);
+    }
   };
   return (
     <div className="flex items-center justify-self-center gap-4 pt-6 w-full">
@@ -59,35 +104,8 @@ const DBItems = () => {
           {
             icon: "edit",
             tooltip: "Edit Data",
-            onClick: (_event, rowData) => {
-              if (window.confirm("Bạn chắc chắn muốn sửa hay không")) {
-                // Set the initial values to the product's data
-                setUpdatedProductData({
-                  product_name: rowData.product_name,
-                  product_category: rowData.product_category,
-                  product_price: rowData.product_price,
-                  // Set other properties as needed
-                });
-
-                // Prompt user for updated values
-                const updatedProductPrice = prompt('Nhập giá mới:', rowData.product_price);
-
-                // Update the product_price in the state
-                if (updatedProductPrice !== null) {
-                  handleInputChange('product_price', parseFloat(updatedProductPrice));
-                }
-
-                // Call editAProduct with updatedProductData
-                editAProduct(rowData.productId, updatedProductData).then((res) => {
-                  dispatch(alertSuccess("Sản phẩm đã cập nhập"));
-                  setTimeout(() => {
-                    dispatch(alertNULL());
-                  }, 3000);
-                  getAllProducts().then((data) => {
-                    dispatch(setAllProducts(data));
-                  });
-                });
-              }
+            onClick: async (_event, rowData) => {
+               await handleEditProduct(rowData);
             },
           },
           {

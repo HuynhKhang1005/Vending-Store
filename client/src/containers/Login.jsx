@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { LoginBg, Logo } from "../assets";
 import { LoginInput } from "../components";
@@ -5,6 +6,7 @@ import { FaEnvelope, FaLock, FcGoogle } from "../assets/icons";
 import { motion } from "framer-motion";
 import { buttonClcik } from "../animations";
 import { useNavigate } from "react-router-dom";
+
 
 import {
   getAuth,
@@ -17,9 +19,10 @@ import { app } from "../config/firebase.config";
 import { validateUserJWTToken } from "../api";
 import { setUserDetails } from "../context/actions/userActions";
 import { useDispatch, useSelector } from "react-redux";
-import { alertInfo, alertWarning } from "../context/actions/alertActions";
+import { alertInfo, alertNULL, alertSuccess, alertWarning } from "../context/actions/alertActions";
 
 const Login = () => {
+  
   const [userEmail, setUserEmail] = useState("");
   const [isSignUp, setIsSignUp] = useState(false);
   const [password, setPassword] = useState("");
@@ -39,7 +42,7 @@ const Login = () => {
     if (user) {
       navigate("/", { replace: true });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  
   }, [user]);
 
   const loginWithGoogle = async () => {
@@ -51,6 +54,10 @@ const Login = () => {
               dispatch(setUserDetails(data));
             });
             navigate("/", { replace: true });
+            dispatch(alertSuccess("Đăng nhập thành công"));
+                setTimeout(() => {
+                  dispatch(alertNULL());
+                }, 3000);
           });
         }
       });
@@ -76,14 +83,22 @@ const Login = () => {
                 validateUserJWTToken(token).then((data) => {
                   dispatch(setUserDetails(data));
                 });
-                navigate("/", { replace: true });
-                setIsSignUp(false); // Set isSignUp to false after successful sign-up
+                dispatch(alertSuccess("Đăng kí thành công"));
+                setTimeout(() => {
+                  dispatch(alertNULL());
+                }, 3000);  
+                // setIsSignUp(false);
+                navigate("/");
               });
             }
           });
         });
       } else {
         dispatch(alertWarning("Mật khẩu không khớp"));
+        setTimeout(() => {
+                  dispatch(alertNULL());
+                }, 3000);  
+                
       }
     }
   };
@@ -98,6 +113,10 @@ const Login = () => {
                 validateUserJWTToken(token).then((data) => {
                   dispatch(setUserDetails(data));
                 });
+                dispatch(alertSuccess("Đăng nhập thành công"));
+                setTimeout(() => {
+                  dispatch(alertNULL());
+                }, 3000);
                 navigate("/", { replace: true });
               });
             }
@@ -106,6 +125,9 @@ const Login = () => {
       );
     } else {
       dispatch(alertWarning("Mật khẩu không khớp"));
+      setTimeout(() => {
+                  dispatch(alertNULL());
+                }, 3000);
     }
   };
 

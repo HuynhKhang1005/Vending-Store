@@ -6,10 +6,11 @@ import { setAllProducts } from "../context/actions/productActions";
 
 import { CChart } from "@coreui/react-chartjs";
 
+
 const DBHome = () => {
   const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
-  const [orderData, setOrderData] = useState(null);
+
 
   const drinks = products?.filter((item) => item.product_category === "drinks");
   const snack = products?.filter((item) => item.product_category === "snack");
@@ -23,6 +24,7 @@ const DBHome = () => {
       });
     }
   }, [dispatch, products]);
+
 
   return (
     <div className="flex items-center justify-center flex-col pt-6 w-full h-full">
@@ -54,31 +56,6 @@ const DBHome = () => {
                 ],
               }}
               labels="months"
-            />
-          </div>
-        </div>
-        <div className="w-full h-full flex items-center justify-center">
-          <div className="w-275 md:w-460">
-            <CChart
-              type="doughnut"
-              data={{
-                labels: orderData ? orderData.map(order => order.product_category) : [],
-                datasets: [
-                  {
-                    backgroundColor: [
-                      "#51FF00",
-                      "#00B6FF",
-                      "#f010101",
-                    ],
-                    data: [
-                      drinks?.length,
-                      snack?.length,
-                      fruits?.length,
-                      candy?.length,   
-                    ],
-                  },
-                ],
-              }}
             />
           </div>
         </div>

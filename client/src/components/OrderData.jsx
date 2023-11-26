@@ -128,6 +128,10 @@ const OrderData = ({ index, data, admin }) => {
             {data.shipping_details.address.state} -
             {data.shipping_details.address.postal_code}
           </p>
+          <p className="text-base text-textColor -mt-2">
+            Ngày mua:{" "}
+            {data.date}
+          </p>
         </div>
       </div>
     </motion.div>
