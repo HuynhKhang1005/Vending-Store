@@ -17,7 +17,7 @@ const DBItems = () => {
   const handleInputChange = (fieldName, value) => {
     setUpdatedProductData({
       ...updatedProductData,
-      [fieldName]: value,
+      [fieldName]: value.product_price,
     });
   };
   return (
