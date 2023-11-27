@@ -21,13 +21,12 @@ const Menu = () => {
 
   return (
     <main className="w-screen min-h-screen flex items-center justify-start flex-col bg-primary">
-        <Header />
-      
-        <div className="w-full flex flex-col items-center justify-center mt-60 px-6 md:px-24 2xl:px-96 gap-12 pb-24 text-3xl">
-        
-        <h1 className="text-[72px] text-headingColor font-bold">Đang cập nhật</h1>
+      <Header />
+      <div className="w-full flex flex-col items-start justify-center mt-40 px-6 min-[465px]:px-10 md:px-24 2xl:px-96 gap-12 pb-24">
+        <FilterSection />
       </div>
-    
+
+      {isCart && <Cart />}
     </main>
   );
 };
