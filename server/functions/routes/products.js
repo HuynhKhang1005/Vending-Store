@@ -259,8 +259,8 @@ router.post("/create-checkout-session", async (req, res) => {
 
     res.send({url: session.url});
   } catch (error) {
-    console.error("Error creating checkout session:", error);
-    res.status(500).send({error: "Internal server error"});
+    console.error("Lỗi xảy ra khi thanh toán :", error);
+    res.status(500).send({error: "Máy chủ gặp lỗi"});
   }
 });
 
@@ -296,8 +296,8 @@ router.post(
       if (eventType === "checkout.session.completed") {
         stripe.customers.retrieve(data.customer).then((customer) => {
           createOrder(customer, data, res);
-          console.log("Khach hang", customer);
-          console.log("Data", data);
+          // console.log("Khach hang", customer);
+          // console.log("Data", data);
         });
       }
 
