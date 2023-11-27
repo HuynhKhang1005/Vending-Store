@@ -1,12 +1,14 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllOrder } from "../api";
-import { Header, OrderData } from "../components";
+import { Cart, Header, OrderData } from "../components";
 import { setOrders } from "../context/actions/ordersAction";
 
 const UsersOrder = () => {
   const user = useSelector((state) => state.user);
   const orders = useSelector((state) => state.orders);
+
   const dispatch = useDispatch();
 
   const [userOrders, setUserOrders] = useState(null);
@@ -39,6 +41,7 @@ const UsersOrder = () => {
           </>
         )}
       </div>
+      
     </main>
   );
 };

@@ -26,7 +26,8 @@ const DichVu = () => {
         <div className="w-full flex flex-col items-center justify-center mt-60 px-6 md:px-24 2xl:px-96 gap-12 pb-24 text-3xl">
         
           <h1 className="text-[72px] text-headingColor font-bold">Đang cập nhật</h1>
-        </div>    
+      </div>    
+      {isCart && <Cart />}
     </main>
   );
 };

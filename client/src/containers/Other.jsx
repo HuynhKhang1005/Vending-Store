@@ -27,7 +27,7 @@ const Other = () => {
         
         <h1 className="text-[72px] text-headingColor font-bold">Đang cập nhật</h1>
       </div>
-    
+      {isCart && <Cart />}
     </main>
   );
 };
