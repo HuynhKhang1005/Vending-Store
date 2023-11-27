@@ -99,7 +99,7 @@ const DBItems = () => {
           },
         ]}
         data={products}
-        title="List of Products"
+        title="Danh sách sản phẩm"
         actions={[
           {
             icon: "edit",
