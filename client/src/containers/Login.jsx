@@ -40,7 +40,7 @@ const Login = () => {
   
   useEffect(() => {
     if (user) {
-      navigate("/home", { replace: true });
+      navigate("/", { replace: true });
     }
   
   }, [user]);
@@ -53,7 +53,7 @@ const Login = () => {
             validateUserJWTToken(token).then((data) => {
               dispatch(setUserDetails(data));
             });
-            navigate("/home", { replace: true });
+            navigate("/", { replace: true });
             dispatch(alertSuccess("Đăng nhập thành công"));
                 setTimeout(() => {
                   dispatch(alertNULL());
@@ -91,7 +91,7 @@ const Login = () => {
                   dispatch(alertNULL());
                 }, 3000);  
                 setIsSignUp(false);
-                navigate("/home", { replace: false });
+                navigate("/", { replace: false });
               });
             }
           });

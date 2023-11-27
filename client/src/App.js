@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import { fadeInOut } from "./animations";
 import { getAllCartItems, validateUserJWTToken } from "./api";
-import { Alert, MainLoader, CheckOutSuccess, UsersOrder } from "./components";
+import { Alert, MainLoader, CheckOutSuccess, UsersOrder, UsersInfo } from "./components";
 import { app } from "./config/firebase.config";
-import { Dashboard, Login, Main } from "./containers";
+import { Dashboard, DichVu, Login, Main, Menu, Other } from "./containers";
 import { setCartItems } from "./context/actions/cartAction";
 import { setUserDetails } from "./context/actions/userActions";
 
@@ -54,11 +54,16 @@ const App = () => {
         </motion.div>
       )}
       <Routes>
-        <Route path="/*" element={<Login />} />
-        <Route path="/home" element={<Main />} />
+      <Route path="/*" element={<Main />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/services" element={<DichVu />} />
+        <Route path="/aboutus" element={<Other />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
         <Route path="/checkout-success" element={<CheckOutSuccess />} />
         <Route path="/user-orders" element={<UsersOrder />} />
+        <Route path="/profile" element={<UsersInfo />} />
+
       </Routes>
 
       {alert?.type && <Alert type={alert?.type} message={alert?.message} />}
