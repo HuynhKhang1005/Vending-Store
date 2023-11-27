@@ -46,11 +46,11 @@ export const deleteAProduct = async (productId) => {
 };
 
 //sửa thông tin sản phẩm
-export const editAProduct = async (productId, updatedProductData) => {
+export const editAProduct = async (productId, product_price) => {
   try {
     const res = await axios.put(
       `${baseURL}/api/products/edit/${productId}`,
-      updatedProductData
+      {...product_price}
     );
     return res.data.data;
   } catch (err) {
@@ -81,8 +81,6 @@ const removeDuplicates = (arr, prop) => {
 };
 
 
-// add an item to cart
-// add new items to  the cart
 export const addNewItemToCart = async (user_id, data) => {
   try {
     const res = await axios.post(

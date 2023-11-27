@@ -8,14 +8,14 @@ import { setAllProducts } from "../context/actions/productActions";
 const DBItems = () => {
   const products = useSelector((state) => state.products);
   const dispatch = useDispatch();
-  const [updatedProductData, setUpdatedProductData] = useState({
+  const [product_price, setProduct_price] = useState({
     product_name: "",
     product_category: "",
     product_price: 0,
   });
   const handleInputChange = (fieldName, value) => {
-      setUpdatedProductData({
-        ...updatedProductData,
+      setProduct_price({
+        ...product_price,
         [fieldName]: value,
       });
   };
@@ -23,7 +23,7 @@ const DBItems = () => {
     try {
       if (window.confirm("Bạn chắc chắn muốn sửa hay không")) {
         // Set the initial values to the product's data
-        setUpdatedProductData({
+        setProduct_price({
           product_name: rowData.product_name,
           product_category: rowData.product_category,
           product_price: rowData.product_price,
@@ -38,8 +38,8 @@ const DBItems = () => {
           handleInputChange("product_price", parseFloat(updatedProductPrice));
         }
 
-        // Call editAProduct with updatedProductData
-        const res = await editAProduct(rowData.productId, updatedProductData);
+        // Call editAProduct with product_price
+        const res = await editAProduct(rowData.productId, product_price);
 
         if (res && res.success) {
           dispatch(alertSuccess("Sản phẩm đã cập nhật"));

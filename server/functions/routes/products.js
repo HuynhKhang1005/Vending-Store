@@ -296,6 +296,8 @@ router.post(
       if (eventType === "checkout.session.completed") {
         stripe.customers.retrieve(data.customer).then((customer) => {
           createOrder(customer, data, res);
+          console.log("Khach hang", customer);
+          console.log("Data", data);
         });
       }
 
@@ -303,7 +305,7 @@ router.post(
     },
 );
 
-const createOrder = async (customer, intent, res) => {
+const createOrder = async (customer, headers, intent, res) => {
   console.log("Inside the orders");
   console.log(createOrder);
   try {
@@ -321,7 +323,6 @@ const createOrder = async (customer, intent, res) => {
       items: JSON.parse(customer.metadata.cart),
       total: customer.metadata.total,
       sts: "Chờ",
-      date: intent.Date(),
     };
 
     await db.collection("orders").doc(`/${orderId}/`).set(data);

@@ -7,7 +7,6 @@ import { Header } from "../components";
 import { motion } from "framer-motion";
 import { buttonClcik } from "../animations";
 
-
 const CheckOutSuccess = () => {
   return (
     <main className=" w-screen min-h-screen flex items-center justify-start flex-col">
@@ -16,8 +15,11 @@ const CheckOutSuccess = () => {
         <img src={Bill} className="w-full md:w-656" alt="" />
 
         <h1 className="text-[50px] text-headingColor font-bold">
-          Thanh toán thành công
+          Thanh toán thành công 
         </h1>
+        <h5 className="text-[30px] text-yellow-400 font-bold">
+          Vui lòng chờ nhận hàng !!
+        </h5>
 
         <motion.div {...buttonClcik}>
           <NavLink

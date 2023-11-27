@@ -54,8 +54,8 @@ const App = () => {
         </motion.div>
       )}
       <Routes>
-        <Route path="/*" element={<Main />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/*" element={<Login />} />
+        <Route path="/home" element={<Main />} />
         <Route path="/dashboard/*" element={<Dashboard />} />
         <Route path="/checkout-success" element={<CheckOutSuccess />} />
         <Route path="/user-orders" element={<UsersOrder />} />

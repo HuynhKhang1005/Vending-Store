@@ -40,7 +40,7 @@ const Login = () => {
   
   useEffect(() => {
     if (user) {
-      navigate("/", { replace: true });
+      navigate("/home", { replace: true });
     }
   
   }, [user]);
@@ -53,7 +53,7 @@ const Login = () => {
             validateUserJWTToken(token).then((data) => {
               dispatch(setUserDetails(data));
             });
-            navigate("/", { replace: true });
+            navigate("/home", { replace: true });
             dispatch(alertSuccess("Đăng nhập thành công"));
                 setTimeout(() => {
                   dispatch(alertNULL());
@@ -67,6 +67,9 @@ const Login = () => {
    const signUpWithEmailPass = async () => {
     if (userEmail === "" || password === "" || confirm_password === "") {
       dispatch(alertInfo("Các trường bắt buộc không được để trống"));
+      setTimeout(() => {
+                  dispatch(alertNULL());
+                }, 3000); 
     } else {
       if (password === confirm_password) {
         setUserEmail("");
@@ -87,8 +90,8 @@ const Login = () => {
                 setTimeout(() => {
                   dispatch(alertNULL());
                 }, 3000);  
-                // setIsSignUp(false);
-                navigate("/");
+                setIsSignUp(false);
+                navigate("/home", { replace: false });
               });
             }
           });
@@ -117,7 +120,7 @@ const Login = () => {
                 setTimeout(() => {
                   dispatch(alertNULL());
                 }, 3000);
-                navigate("/", { replace: true });
+                navigate("/home", { replace: true });
               });
             }
           });
