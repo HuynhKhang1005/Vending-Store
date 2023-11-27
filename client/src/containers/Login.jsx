@@ -40,7 +40,7 @@ const Login = () => {
   
   useEffect(() => {
     if (user) {
-      navigate("/", { replace: true });
+      navigate("/login", { replace: true });
     }
   
   }, [user]);
@@ -91,7 +91,7 @@ const Login = () => {
                   dispatch(alertNULL());
                 }, 3000);  
                 setIsSignUp(false);
-                navigate("/", { replace: false });
+                navigate("/login", { replace: true });
               });
             }
           });
@@ -120,7 +120,7 @@ const Login = () => {
                 setTimeout(() => {
                   dispatch(alertNULL());
                 }, 3000);
-                navigate("/home", { replace: true });
+                navigate("/", { replace: true });
               });
             }
           });
