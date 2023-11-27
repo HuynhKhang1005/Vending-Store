@@ -1,16 +1,17 @@
 import { motion } from "framer-motion";
 import React from "react";
 import { buttonClcik, staggerFadeInOut } from "../animations";
-import {  } from "../assets";
+// import { LoginBg } from "../assets";
 import { randomData } from "../utils/styles";
 
 const Home = () => {
   return (
     <motion.div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 ">
+      
       <div className="flex flex-col items-start justify-start gap-6">
         
 
-        <p className="text-[40px] text-headingColor md:text-[72px] font-sans font-extrabold tracking-wider">
+        <p className="text-[40px] text-headingColor md:text-[50px] font-sans font-extrabold tracking-wider">
           Máy bán hàng tự động
           {" "}
           <span className="text-orange-600">của chúng tôi</span>
