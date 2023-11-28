@@ -7,7 +7,7 @@ import { fadeInOut } from "./animations";
 import { getAllCartItems, validateUserJWTToken } from "./api";
 import { Alert, MainLoader, CheckOutSuccess, UsersOrder, UsersInfo } from "./components";
 import { app } from "./config/firebase.config";
-import { Dashboard, DichVu, Login, Main, Menu, Other } from "./containers";
+import { Dashboard, DichVu, Login, Main, Menu, Other, Start } from "./containers";
 import { setCartItems } from "./context/actions/cartAction";
 import { setUserDetails } from "./context/actions/userActions";
 
@@ -39,7 +39,7 @@ const App = () => {
       }
       setInterval(() => {
         setIsLoading(false);
-      }, 3000);
+      }, 2000);
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -54,7 +54,8 @@ const App = () => {
         </motion.div>
       )}
       <Routes>
-      <Route path="/*" element={<Main />} />
+        <Route path="/*" element={<Start />} />
+        <Route path="/home" element={<Main />} />
         <Route path="/login" element={<Login />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/services" element={<DichVu />} />

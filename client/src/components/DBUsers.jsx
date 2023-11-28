@@ -57,6 +57,12 @@ const DBUsers = () => {
         ]}
         data={allUsers}
         title="Danh sách người dùng"    
+        actions={[
+          {
+            icon: "delete",
+            tooltip: "Delete Data",
+          }
+        ]}
       />
     </div>
   );

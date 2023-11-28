@@ -6,7 +6,8 @@ import { FaEnvelope, FaLock, FcGoogle } from "../assets/icons";
 import { motion } from "framer-motion";
 import { buttonClcik } from "../animations";
 import { useNavigate } from "react-router-dom";
-
+import { NavLink } from 'react-router-dom';
+import { FaArrowLeft } from "../assets/icons";
 
 import {
   getAuth,
@@ -53,7 +54,7 @@ const Login = () => {
             validateUserJWTToken(token).then((data) => {
               dispatch(setUserDetails(data));
             });
-            navigate("/", { replace: true });
+            navigate("/menu", { replace: true });
             dispatch(alertSuccess("Đăng nhập thành công"));
                 setTimeout(() => {
                   dispatch(alertNULL());
@@ -120,7 +121,7 @@ const Login = () => {
                 setTimeout(() => {
                   dispatch(alertNULL());
                 }, 3000);
-                navigate("/", { replace: true });
+                navigate("/menu", { replace: true });
               });
             }
           });
@@ -144,9 +145,16 @@ const Login = () => {
       />
 
       {/* nội dung */}
-      <div className="flex flex-col items-center bg-lightOverlay w-[40%] md:w-508 h-full z-10 backdrop-blur-md p-4 px-4 py-12 gap-6">
+      <div className="flex flex-col items-center bg-lightOverlay w-[40%] md:w-508 h-full z-10 backdrop-blur-md p-4 px-4 py-12 gap-6 rounded-md">
+        
         {/* phần đầu logo */}
         <div className="flex items-center justify-start gap-4 w-full">
+          <NavLink
+            to={"/"}
+            className="flex items-center justify-center gap-4 cursor-pointer text-2xl text-textColor font-semibold px-4 py-2 rounded-md hover:shadow-md"
+          >
+            <FaArrowLeft className="text-xl text-textColor " /> 
+          </NavLink>
           <img src={Logo} className="w-8" alt="" />
           <p className="text-headingColor font-semibold text-2xl">Vending</p>
         </div>
@@ -232,15 +240,15 @@ const Login = () => {
           )}
         </div>
 
-        <div className="flex items-center justify-between gap-16">
-          <div className="w-24 h-[1px] rounded-md bg-white"></div>
-          <p className="text-white">hoặc</p>
-          <div className="w-24 h-[1px] rounded-md bg-white"></div>
+        <div className="flex items-center justify-between gap-12">
+          <div className="w-20 h-[1px] rounded-md bg-white"></div>
+            <p className="text-white">hoặc</p>
+          <div className="w-20 h-[1px] rounded-md bg-white"></div>
         </div>
 
         <motion.div
           {...buttonClcik}
-          className="flex items-center justify-center px-20 py-2 bg-lightOverlay backdrop-blur-md cursor-pointer rounded-3xl gap-4"
+          className="flex items-center justify-center px-20 py-2 bg-lightOverlay backdrop-blur-md cursor-pointer rounded-3xl gap-2"
           onClick={loginWithGoogle}
         >
           <FcGoogle className="text-3xl" />
@@ -248,6 +256,7 @@ const Login = () => {
             Đăng nhập bằng Google
           </p>
         </motion.div>
+          
       </div>
     </div>
   );

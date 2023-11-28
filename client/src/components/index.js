@@ -24,4 +24,8 @@ export { default as CheckOutSuccess } from "./CheckOutSuccess";
 export { default as OrderData } from "./OrderData";
 export { default as UsersOrder } from "./UsersOrder";
 export { default as UsersInfo } from "./UsersInfo";
+export { default as NoUser_Order } from "./NoUser_Order";
+export { default as Payment } from "./Payment";
+
+
 

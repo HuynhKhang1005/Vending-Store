@@ -67,7 +67,7 @@ router.put("/edit/:productId", async (req, res) => {
   const {newPrice} = req.body; // Giả sử bạn truyền giá mới qua request body
 
   try {
-    const productRef = db.collection("products").doc(productId);
+    const productRef = db.collection("products").doc(productId.product_price);
 
     // Sử dụng hàm update để chỉnh sửa giá của sản phẩm
     await productRef.update({
@@ -208,7 +208,6 @@ router.post("/create-checkout-session", async (req, res) => {
   try {
     const customer = await stripe.customers.create({
       metadata: {
-        user_id: req.body.data.user.user_id,
         cart: JSON.stringify(req.body.data.cart),
         total: req.body.data.total,
       },
@@ -217,7 +216,7 @@ router.post("/create-checkout-session", async (req, res) => {
     const line_items = req.body.data.cart.map((item) => {
       return {
         price_data: {
-          currency: "inr",
+          currency: "vnd",
           product_data: {
             name: item.product_name,
             images: [item.imageURL],
@@ -225,36 +224,19 @@ router.post("/create-checkout-session", async (req, res) => {
               id: item.productId,
             },
           },
-          unit_amount: item.product_price * 100,
+          unit_amount: item.product_price,
         },
         quantity: item.quantity,
       };
     });
 
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      shipping_address_collection: {allowed_countries: ["IN"]},
-      shipping_options: [
-        {
-          shipping_rate_data: {
-            type: "fixed_amount",
-            fixed_amount: {amount: 0, currency: "inr"},
-            display_name: "Free shipping",
-            delivery_estimate: {
-              minimum: {unit: "hour", value: 2},
-              maximum: {unit: "hour", value: 4},
-            },
-          },
-        },
-      ],
-      phone_number_collection: {
-        enabled: true,
-      },
+
       line_items,
       customer: customer.id,
       mode: "payment",
       success_url: `${process.env.CLIENT_URL}/checkout-success`,
-      cancel_url: `${process.env.CLIENT_URL}/`,
+      cancel_url: `${process.env.CLIENT_URL}/menu`,
     });
 
     res.send({url: session.url});
@@ -296,8 +278,8 @@ router.post(
       if (eventType === "checkout.session.completed") {
         stripe.customers.retrieve(data.customer).then((customer) => {
           createOrder(customer, data, res);
-          // console.log("Khach hang", customer);
-          // console.log("Data", data);
+          console.log("Khach hang", customer);
+          console.log("Data", data);
         });
       }
 
@@ -305,7 +287,7 @@ router.post(
     },
 );
 
-const createOrder = async (customer, headers, intent, res) => {
+const createOrder = async (customer, intent, res) => {
   console.log("Inside the orders");
   console.log(createOrder);
   try {
@@ -322,7 +304,7 @@ const createOrder = async (customer, headers, intent, res) => {
       userId: customer.metadata.user_id,
       items: JSON.parse(customer.metadata.cart),
       total: customer.metadata.total,
-      sts: "Chờ",
+      sts: "Đã thanh toán",
     };
 
     await db.collection("orders").doc(`/${orderId}/`).set(data);

@@ -10,6 +10,7 @@ import { getAuth } from "firebase/auth";
 import { app } from "../config/firebase.config";
 import { setUserNull } from "../context/actions/userActions";
 import { setCartOn } from "../context/actions/displayCartAction";
+import { FaArrowLeft } from "react-icons/fa";
 
 const Header = () => {
   const user = useSelector((state) => state.user);
@@ -32,9 +33,14 @@ const Header = () => {
 
   return (
     <header className="fixed backdrop-blur-md z-50 inset-x-0 top-0 flex items-center justify-between px-12 md:px-20 py-6">
-      <NavLink to={"/"} className="flex items-center justify-center gap-2">
-        <img src={Logo} className="w-14" alt="" />
-        <p className="font-semibold text-xl">Vending</p>
+      <NavLink to={"/"}
+          className="flex items-center justify-center gap-2 cursor-pointer text-2xl text-textColor font-semibold rounded-md "
+          >
+            <FaArrowLeft className="text-xl text-textColor hover:shadow-md " /> 
+            <img src={Logo} className="w-14" alt="" />
+            <p className="font-semibold text-xl">Vending</p>
+            </NavLink>
+            <NavLink to={"/menu"} className="flex items-start justify-start gap-2">
       </NavLink>
 
       <nav className="flex items-center justify-center gap-8">
@@ -43,9 +49,8 @@ const Header = () => {
             className={({ isActive }) =>
               isActive ? isActiveStyles : isNotActiveStyles
             }
-            to={"/"}
+            to={"/home"}
           >
-            Trang chủ
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -148,14 +153,7 @@ const Header = () => {
           </>
         ) : (
           <>
-            <NavLink to={"/login"}>
-              <motion.button
-                {...buttonClcik}
-                className="px-4 py-2 rounded-md shadow-md bg-lightOverlay border border-red-300 cursor-pointer"
-              >
-                Login
-              </motion.button>
-            </NavLink>
+            
           </>
         )}
       </nav>
