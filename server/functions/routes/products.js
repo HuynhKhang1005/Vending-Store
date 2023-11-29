@@ -206,11 +206,23 @@ router.get("/getCartItems/:user_id", async (req, res) => {
 
 router.post("/create-checkout-session", async (req, res) => {
   try {
-    const customer = await stripe.customers.create({
-      metadata: {
+    let metadata;
+
+    if (req.body.data.user && req.body.data.user.user_id) {
+      metadata = {
+        user_id: req.body.data.user.user_id,
         cart: JSON.stringify(req.body.data.cart),
         total: req.body.data.total,
-      },
+      };
+    } else {
+      metadata = {
+        cart: JSON.stringify(req.body.data.cart),
+        total: req.body.data.total,
+      };
+    }
+
+    const customer = await stripe.customers.create({
+      metadata: metadata,
     });
 
     const line_items = req.body.data.cart.map((item) => {

@@ -23,7 +23,7 @@ const CheckOutSuccess = () => {
 
         <motion.div {...buttonClcik}>
           <NavLink
-            to={"/"}
+            to={"/menu"}
             className="flex items-center justify-center gap-4 cursor-pointer text-2xl text-textColor font-semibold px-4 py-2 rounded-md border border-gray-300 hover:shadow-md"
           >
             <FaArrowLeft className="text-3xl text-textColor " /> Quay về trang chủ

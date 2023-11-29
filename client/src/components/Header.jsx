@@ -26,7 +26,7 @@ const Header = () => {
       .signOut()
       .then(() => {
         dispatch(setUserNull());
-        navigate("/login", { replace: true });
+        navigate("/", { replace: true });
       })
       .catch((err) => console.log(err));
   };
