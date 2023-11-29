@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,8 +15,9 @@ const DBHome = () => {
 
   const drinks = products?.filter((item) => item.product_category === "drinks");
   const snack = products?.filter((item) => item.product_category === "snack");
-  const fruits = products?.filter((item) => item.product_category === "fruits");
+  const noodles = products?.filter((item) => item.product_category === "noodles");
   const candy = products?.filter((item) => item.product_category === "candy");
+  const cake = products?.filter((item) => item.product_category === "cake");
 
   useEffect(() => {
     if (!products) {
@@ -37,8 +39,9 @@ const DBHome = () => {
                 labels: [
                   "Nước",
                   "Snack",
-                  "Fruits",
+                  "Mì",
                   "Kẹo",
+                  "Bánh",
                   
                 ],
                 datasets: [
@@ -48,10 +51,12 @@ const DBHome = () => {
                     data: [
                       drinks?.length,
                       snack?.length,
-                      fruits?.length,
+                      noodles?.length,
                       candy?.length,
+                      cake?.length,
                       
                     ],
+                    
                   },
                 ],
               }}
