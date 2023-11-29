@@ -54,7 +54,7 @@ const Home = () => {
                 
                 <p className="text-sm  font-semibold text-headingColor">
                 {data.product_price}
-                  {" "}<span className="text-xs text-red-600">VND</span>
+                  {" "}<span className="text-xs text-red-600">vnđ</span>
                 </p>
               </motion.div>
             ))}

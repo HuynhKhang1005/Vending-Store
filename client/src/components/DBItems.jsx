@@ -93,7 +93,7 @@ const DBItems = () => {
             field: "product_price",
             render: (rowData) => (
               <p className="text-xl font-semibold text-textColor flex items-center justify-center ">
-                {parseFloat(rowData.product_price).toFixed()} VND
+                {parseFloat(rowData.product_price).toFixed()} vnđ
               </p>
             ),
           },

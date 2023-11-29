@@ -79,7 +79,7 @@ const Cart = () => {
               <div className="w-full flex items-center justify-center ">
                 <p className="text-2xl text-zinc-500 font-semibold">Tổng : </p>
                 <p className="text-2xl text-orange-500 font-semibold flex items-center justify-center px-2">
-                  {total} VND
+                  {total} vnđ
                 </p>
               </div>
               <motion.button
@@ -153,7 +153,7 @@ export const CartItemCard = ({ index, data }) => {
           </span>
         </p>
         <p className="text-sm flex items-center justify-center gap-1 font-semibold text-red-400 ml-auto">
-         {itemTotal} VND
+         {itemTotal} vnđ
         </p>
       </div>
 

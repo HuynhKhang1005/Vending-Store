@@ -32,7 +32,7 @@ const handleClick = (orderId, sts) => {
         <div className=" flex items-center gap-4">
           <p className="flex items-center gap-1 text-textColor">
            Giá :<span className="text-headingColor font-bold">{data?.total}</span>
-           {" "} VND
+           {" "} vnđ
           </p>
 
          <p className="px-2 py-[2px] text-sm text-headingColor font-semibold capitalize  rounded-md bg-emerald-400 drop-shadow-md">
@@ -91,7 +91,7 @@ const handleClick = (orderId, sts) => {
                     </p>
                     <p className="flex items-center gap-[2px] mt-[-1px] text-textColor">  
                     {" "}  
-                      Giá:{" "}{parseFloat(item.product_price * item.quantity).toFixed()}{" "}VND
+                      Giá:{" "}{parseFloat(item.product_price * item.quantity).toFixed()}{" "}vnđ
                     </p>
                   </div>
                 </div>

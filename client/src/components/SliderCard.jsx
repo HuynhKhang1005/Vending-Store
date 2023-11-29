@@ -32,7 +32,7 @@ const SliderCard = ({ data, index }) => {
         </p>
         <p className="text-lg font-semibold text-red-500 flex items-center justify-center gap-1">
         {"  "}
-          {parseFloat(data.product_price).toFixed(0)}{" "}VND
+          {parseFloat(data.product_price).toFixed(0)}{" "}vnđ
         </p>
 
         <motion.div
