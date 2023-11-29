@@ -9,13 +9,17 @@ import { useDispatch } from "react-redux";
 const OrderData = ({ index, data, admin }) => {
   const dispatch = useDispatch();
 
-  const handleClick = (orderId, sts) => {
-    updateOrderSts(orderId, sts).then((response) => {
+const handleClick = (orderId, sts) => {
+  updateOrderSts(orderId, sts).then((response) => {
+    // Đặt timeout cho 3 giây trước khi lấy tất cả đơn hàng mới
+    setTimeout(() => {
       getAllOrder().then((data) => {
         dispatch(setOrders(data));
       });
-    });
-  };
+    }, 3000); // 3000 milliseconds = 3 seconds
+  });
+};
+
 
   return (
     <motion.div
@@ -36,7 +40,8 @@ const OrderData = ({ index, data, admin }) => {
           </p>
 
           <p
-            className={`text-base font-semibold capitalize border border-gray-300 px-2 py-[2px] rounded-md ${
+            className={`text-base font-semibold capitalize border border-gray-300 px-2 py-[2px] rounded-md 
+            ${
               (data.sts === "Đã nhận hàng" && "text-emerald-500 bg-emerald-100")
             }`}
           >

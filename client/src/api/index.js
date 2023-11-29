@@ -122,7 +122,8 @@ export const increaseItemQuantity = async (user_id, productId, type) => {
 export const getAllOrder = async () => {
   try {
     const res = await axios.get(`${baseURL}/api/products/orders`);
-    return res.data.data;
+    const reversedData = res.data.data.reverse();
+    return reversedData;
   } catch (error) {
     return null;
   }
