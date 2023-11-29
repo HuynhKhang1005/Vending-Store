@@ -31,6 +31,7 @@ const UsersOrder = () => {
       <div className="w-full flex flex-col items-start justify-center mt-40 px-6 md:px-24 2xl:px-96 gap-12 pb-24">
         {userOrders?.length > 0 ? (
           <>
+            <h1 className="text-[50px] text-headingColor font-bold">Lịch sử mua hàng</h1>
             {userOrders.map((item, i) => (
               <OrderData key={i} index={i} data={item} admin={false} />
             ))}
